@@ -13,8 +13,8 @@ sensor = grove_d7s.GroveD7s()
 
 # ambient instance
 try:
-    AMBIENT_CHANNEL_ID = int(os.environ['9899'])
-    AMBIENT_WRITE_KEY = os.environ['Ae6150ba5bbdf895f']
+    AMBIENT_CHANNEL_ID = int(os.environ['AMBIENT_CHANNEL_ID'])
+    AMBIENT_WRITE_KEY = os.environ['AMBIENT_WRITE_KEY']
     am = ambient.Ambient(AMBIENT_CHANNEL_ID, AMBIENT_WRITE_KEY)
 except KeyError:
     print("isaaxの環境変数サービスを使って AMBIENT_CHANNEL_ID と AMBIENT_WRITE_KEY を設定してください")
