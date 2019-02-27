@@ -69,6 +69,7 @@ def main():
 
         # デバッグ用に送信したデータを標準出力（本当は不要）
         print(now.strftime("[%Y/%m/%d %H:%M:%S]"),
+            "SHINDO={}".format(shindo),
             "SI={}[Kine]".format(si), 
             "PGA={}[gal]".format(pga),
             "EQ=%s" % eq)
