@@ -27,9 +27,7 @@ pip3 install git+https://github.com/AmbientDataInc/ambient-python-lib.git
 
 ## Usage
 
-```bash
-$ AMBIENT_CHANNEL_ID=*** AMBIENT_WRITE_KEY=***** python3 main.py
-```
+<https://camp.isaax.io/ja/examples/omron-d7s-ambient> （日本語）
 
 ## Licence
 
