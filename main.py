@@ -1,6 +1,4 @@
 # coding: utf-8
-# Sample that outputs the value acquired by D7S.
-
 from __future__ import print_function
 
 import os
@@ -8,13 +6,19 @@ import time
 import datetime
 
 import grove_d7s
-from ambient_connector import AmbientConnector
+import ambient
 
 # sensor instance
 sensor = grove_d7s.GroveD7s()
 
-# ambientをラップしたAmbientConnectorを使います
-am = AmbientConnector()
+# ambient instance
+try:
+    AMBIENT_CHANNEL_ID = int(os.environ['9899'])
+    AMBIENT_WRITE_KEY = os.environ['Ae6150ba5bbdf895f']
+    am = ambient.Ambient(AMBIENT_CHANNEL_ID, AMBIENT_WRITE_KEY)
+except KeyError:
+    print("isaaxの環境変数サービスを使って AMBIENT_CHANNEL_ID と AMBIENT_WRITE_KEY を設定してください")
+    exit(1)
 
 
 def main():
@@ -25,20 +29,13 @@ def main():
     print("start")
 
     while True:
-        # 1秒間隔でデータを取得する
-        time.sleep(1.0)
-        
+        # 10秒のインターバルを設定
+        time.sleep(10)
         # センサーデータの取得
         si = sensor.getInstantaneusSI()
         pga = sensor.getInstantaneusPGA()
         now = datetime.datetime.today()
         eq = sensor.isEarthquakeOccuring()
-
-        # デバッグ用にデータを標準出力（本当は不要）
-        print(now.strftime("[%Y/%m/%d %H:%M:%S]"),
-            "SI={}[Kine]".format(si), 
-            "PGA={}[gal]".format(pga),
-            "EQ=%s" % eq)
 
         # センサーの初期化中は値がNoneになるので処理をスキップ
         if si == None and pga == None:
@@ -51,8 +48,16 @@ def main():
             "d2": pga,
             "created": now.strftime("%Y/%m/%d %H:%M:%S")
             }
-        # データをバッファーする
-        am.buffer(payload)
+        try:
+            am.send(payload)
+        except Exception as e:
+            print(e)
+
+        # デバッグ用に送信したデータを標準出力（本当は不要）
+        print(now.strftime("[%Y/%m/%d %H:%M:%S]"),
+            "SI={}[Kine]".format(si), 
+            "PGA={}[gal]".format(pga),
+            "EQ=%s" % eq)
 
 
 if __name__ == '__main__':
