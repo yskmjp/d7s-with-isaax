@@ -36,7 +36,7 @@ def main():
         pga = sensor.getInstantaneusPGA()
         now = datetime.datetime.today()
         eq = sensor.isEarthquakeOccuring()
-        shindo = 0
+        
         if si > 1.1:
             shindo = 3
         elif si > 3.7:
@@ -45,8 +45,10 @@ def main():
             shindo = 5
         elif si > 41.6:
             shindo = 6
-        elif si > 138.1
+        elif si > 138.1:
             shindo = 7
+        else:
+            shindo = 0
 
         # センサーの初期化中は値がNoneになるので処理をスキップ
         if si == None and pga == None:
