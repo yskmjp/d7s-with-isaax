@@ -36,6 +36,17 @@ def main():
         pga = sensor.getInstantaneusPGA()
         now = datetime.datetime.today()
         eq = sensor.isEarthquakeOccuring()
+        shindo = 0
+        if si > 1.1:
+            shindo = 3
+        elif si > 3.7:
+            shindo = 4
+        elif si > 12.5:
+            shindo = 5
+        elif si > 41.6:
+            shindo = 6
+        elif si > 138.1
+            shindo = 7
 
         # センサーの初期化中は値がNoneになるので処理をスキップ
         if si == None and pga == None:
@@ -46,6 +57,7 @@ def main():
             "d5": int(eq),
             "d1": si,
             "d2": pga,
+            "d3": shindo,
             "created": now.strftime("%Y/%m/%d %H:%M:%S")
             }
         try:
